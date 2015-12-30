@@ -85,3 +85,23 @@ func X4(m1, m2 f32.Mat4) f32.Mat4 {
 
     return result;
 }
+
+func RotateMatrix(theta float64, a f32.Vec3) f32.Mat4 {
+    axis := a;
+    mod := float32(1.0);
+    x := axis[0]/mod;
+    y := axis[1]/mod;
+    z := axis[2]/mod;
+    s := float32(math.Sin(theta));
+    c := float32(math.Cos(theta));
+    t := 1.0 - c;
+    // Formula derived here: http://www.gamedev.net/reference/articles/article1199.asp
+    // That proof rotates the co-ordinate system so theta becomes -theta and sin
+    // becomes -sin here.
+    return f32.Mat4 {
+        t*x*x + c, t*x*y - s*z, t*x*z + s*y, 0,
+        t*x*y + s*z, t*y*y + c, t*y*z - s*x, 0,
+        t*x*z - s*y, t*y*z + s*x, t*z*z + c, 0,
+        0,           0,           0,         1,
+    };
+};
